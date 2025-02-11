@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import "express-async-errors";
 import cors from "cors";
+import path from "path";
 
 import { router } from "./router";
 
@@ -13,6 +14,8 @@ app.use(cors()); // Habilida para qualquer ip possa fazer uma requisição
 app.use(router);
 
 // middlewares
+
+app.use("/file", express.static(path.resolve(__dirname, "..", "tmp")));
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof Error) {
@@ -28,3 +31,5 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+
+//npm install --save-dev @types/express@4.17.13

@@ -7,15 +7,21 @@ class CreateProductsController {
 
     const creteProductsService = new CreateProductsService();
 
-    const products = await creteProductsService.execute({
-      name,
-      price,
-      description,
-      banner,
-      category_id,
-    });
+    if (!req.file) {
+      throw new Error("error upload file");
+    } else {
+      const { originalname, filename: banner } = req.file;
 
-    return res.json(products);
+      const products = await creteProductsService.execute({
+        name,
+        price,
+        description,
+        banner,
+        category_id,
+      });
+
+      return res.json(products);
+    }
   }
 }
 
